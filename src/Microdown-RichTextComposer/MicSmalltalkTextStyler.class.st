@@ -3,12 +3,14 @@ I am a smalltalk code styler which renders undefined variables and methods same 
 I am used to render smalltalk codeblocks.
 "
 Class {
-	#name : #MicSmalltalkTextStyler,
-	#superclass : #SHRBTextStyler,
-	#category : #'Microdown-RichTextComposer-Composer'
+	#name : 'MicSmalltalkTextStyler',
+	#superclass : 'SHRBTextStyler',
+	#category : 'Microdown-RichTextComposer-Composer',
+	#package : 'Microdown-RichTextComposer',
+	#tag : 'Composer'
 }
 
-{ #category : #attributes }
+{ #category : 'attributes' }
 MicSmalltalkTextStyler class >> initialTextAttributesForPixelHeight: aNumber [
 	"Render undefined same way as defined"
 	"Perhaps this is not the right spot to hook into stuff, but it seems to work"
@@ -21,7 +23,7 @@ MicSmalltalkTextStyler class >> initialTextAttributesForPixelHeight: aNumber [
 	^ dict
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 MicSmalltalkTextStyler >> resolveStyleFor: aVariableNode [
 	"This circumvent an error in my super"
 	aVariableNode isUndeclaredVariable ifTrue: [ ^#undefinedIdentifier ].

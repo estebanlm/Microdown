@@ -10,8 +10,8 @@ I explicitly not keeping references to class or method, but only class names and
 The purpose is to make sure I do not refer to obsolete classes or methods.
 "
 Class {
-	#name : #MicCodeStylerSpec,
-	#superclass : #Object,
+	#name : 'MicCodeStylerSpec',
+	#superclass : 'Object',
 	#instVars : [
 		'classSymbol',
 		'selector'
@@ -19,10 +19,12 @@ Class {
 	#classInstVars : [
 		'styleCache'
 	],
-	#category : #'Microdown-RichTextComposer-Composer'
+	#category : 'Microdown-RichTextComposer-Composer',
+	#package : 'Microdown-RichTextComposer',
+	#tag : 'Composer'
 }
 
-{ #category : #cache }
+{ #category : 'cache' }
 MicCodeStylerSpec class >> buildCache [
 	styleCache := Dictionary newFrom: 
 		((Pragma allNamed:  'codeblockStyler:')
@@ -35,7 +37,7 @@ MicCodeStylerSpec class >> buildCache [
 						selector: prg method selector) ])
 ]
 
-{ #category : #stylers }
+{ #category : 'stylers' }
 MicCodeStylerSpec class >> codeStylerForMethod: aString [
 	<codeblockStyler: 'Method'>
 	^MicSmalltalkTextStyler new 
@@ -43,16 +45,17 @@ MicCodeStylerSpec class >> codeStylerForMethod: aString [
 		styledTextFor: aString asText
 ]
 
-{ #category : #stylers }
+{ #category : 'stylers' }
 MicCodeStylerSpec class >> codeStylerForPharo: aString [
-	<codeblockStyler: 'Pharo'>
 	"For full methods use style 'Method'"
-	^MicSmalltalkTextStyler new 
-		isForWorkspace: true; 
-		styledTextFor: aString asText
+	<codeblockStyler: 'Pharo'>
+
+	^ MicSmalltalkTextStyler new
+		  isScripting: true;
+		  styledTextFor: aString asText
 ]
 
-{ #category : #stylers }
+{ #category : 'stylers' }
 MicCodeStylerSpec class >> codeStylerForSmalltalk: aString [
 	<codeblockStyler: 'Smalltalk'>
 	^MicSmalltalkTextStyler new 
@@ -60,7 +63,7 @@ MicCodeStylerSpec class >> codeStylerForSmalltalk: aString [
 		styledTextFor: aString asText
 ]
 
-{ #category : #stylers }
+{ #category : 'stylers' }
 MicCodeStylerSpec class >> defaultStyler: aString [
 	<codeblockStyler: 'default'>
 	"Pay attention without this one the logic can loop."
@@ -68,13 +71,13 @@ MicCodeStylerSpec class >> defaultStyler: aString [
 	^ self codeStylerForPharo: aString
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 MicCodeStylerSpec class >> initializeCache [
 	<script>
 	styleCache := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec class >> style: aString asLanguage: aLanguage [
 
 	^ aString 
@@ -82,50 +85,50 @@ MicCodeStylerSpec class >> style: aString asLanguage: aLanguage [
 		ifNotEmpty: [(self styleFor: aLanguage) style: aString]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec class >> styleCache [
 	styleCache ifNil: [ self buildCache ].
 	^ styleCache 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec class >> styleFor: aLanguage [
 	^ self styleCache at: aLanguage asLowercase
 		ifAbsent: [ self styleFor: 'default' ]
 ]
 
-{ #category : #stylers }
+{ #category : 'stylers' }
 MicCodeStylerSpec class >> textStyler: aString [
 	<codeblockStyler: 'text'>
 	
 	^aString asText
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec >> classSymbol [
 
 	^ classSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec >> classSymbol: anObject [
 
 	classSymbol := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec >> selector [
 
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MicCodeStylerSpec >> selector: anObject [
 
 	selector := anObject
 ]
 
-{ #category : #styler }
+{ #category : 'styler' }
 MicCodeStylerSpec >> style: someCode [
 	"This method uses perform:with: - it is part of the scheme to not store references to classes or compiled methods"
 	^ (self class environment at: classSymbol) 
